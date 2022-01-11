@@ -1,5 +1,10 @@
 import os
 
+class ItemType:
+    Done = 'Done'
+    Doing = 'Doing'
+    ToDo = 'To Do'
+
 class Item:
     TODO_LIST_ID = os.getenv('TRELLO_LIST_ID')
     DOING_LIST_ID = os.getenv('TRELLO_DOING_LIST')
@@ -13,11 +18,11 @@ class Item:
     @property
     def status(self):
         if self.list_id == self.DONE_LIST_ID:
-            return 'Done'
+            return ItemType.Done
         elif self.list_id == self.DOING_LIST_ID:
-            return 'Doing'
+            return ItemType.Doing
         else:
-            return 'To Do'
+            return ItemType.ToDo
 
     @classmethod
     def from_trello_card(cls, card):

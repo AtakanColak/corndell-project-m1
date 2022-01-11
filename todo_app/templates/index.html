@@ -8,32 +8,10 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12">
-      <h2>Items</h2>
-      <ul class="list-group mb-4">
-        <!-- List the todo items here -->
-        {% for item in view_model.items %}
-        <li class="row">
-          <div class="col-2 d-none">{{item.id}}</div>
-          <div class="col-2">{{item.status}}</div>
-          <div class="col">{{item.name}}</div>
-          <div class="col">
-            {% if item.status != 'Done' %}
-            <form action={{ url_for('complete', id = item.id, list_id = item.list_id) }} method="post">
-              <button type="submit">
-                {% if item.status == 'To Do' %}
-                Start Doing
-                {% elif item.status == 'Doing' %}
-                Mark as Done
-                {% endif %}
-              </button>
-            </form>
-            {% endif %}
-          </div>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
+    {% from 'components.html' import itemlist %}    
+    {{itemlist(view_model.todo_items, 'TODO Items')}}
+    {{itemlist(view_model.doing_items, 'Doing Items')}}
+    {{itemlist(view_model.done_items, 'Done Items')}}
   </div>
 
   <form
