@@ -21,7 +21,7 @@ class Item:
 
     @classmethod
     def from_trello_card(cls, card):
-        print(card['descData'])
-        return cls(card['id'], card['name'], card['descData']['idList'])
+        print(card['idList'])
+        return cls(card['id'], card['name'], card['idList'])
 
         

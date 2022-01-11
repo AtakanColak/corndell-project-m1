@@ -11,6 +11,7 @@ token = os.getenv('TRELLO_TOKEN')
 def get_items_of_list(list_name, append_target):
     params = { 'key' : key, 'token' : token}
     resp = requests.get(f"{url}/1/lists/{list_name}/cards", params=params)
+    print(resp.json())
     for card in resp.json():
         append_target.append(Item.from_trello_card(card))
 

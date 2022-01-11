@@ -22,5 +22,6 @@ def create():
 
 @app.route('/complete/<id>', methods=['POST'])
 def complete(id):
-    complete_item(id)
+    list_id = request.args.get('list_id')
+    complete_item(id, list_id)
     return redirect('/')
