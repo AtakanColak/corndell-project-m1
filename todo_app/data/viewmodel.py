@@ -9,8 +9,8 @@ class ViewModel:
     def items(self):
         return self._items
 
-    def __get_items_of_type(self, itemType):
-        return [item for item in self.items() if item.status is itemType]
+    def __get_items_of_type(self, itemType: ItemType):
+        return [item for item in self._items if item.status == itemType]
 
     @property
     def todo_items(self):
