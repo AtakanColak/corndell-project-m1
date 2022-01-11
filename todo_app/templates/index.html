@@ -18,9 +18,17 @@
           <div class="col-2">{{item.status}}</div>
           <div class="col">{{item.name}}</div>
           <div class="col">
+            {% if item.status != 'Done' %}
             <form action={{ url_for('complete', id = item.id, list_id = item.list_id) }} method="post">
-              <button type="submit">Done</button>
+              <button type="submit">
+                {% if item.status == 'To Do' %}
+                Start Doing
+                {% elif item.status == 'Doing' %}
+                Mark as Done
+                {% endif %}
+              </button>
             </form>
+            {% endif %}
           </div>
         </li>
         {% endfor %}
