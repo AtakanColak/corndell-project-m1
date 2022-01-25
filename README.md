@@ -32,7 +32,11 @@ $ cp .env.template .env  # (first time only)
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
-### Add trello variables to your .env file as well
+# Don't forget to add trello variables to your .env file
+
+## Running the Test
+
+You may use VSCode to run the tests as the environment variable file is loaded automatically
 
 ## Running the App
 
@@ -52,7 +56,3 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
-
-## Running the Test
-
-Use VSCode to run the tests as the environment variable file is loaded automatically
