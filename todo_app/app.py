@@ -7,8 +7,8 @@ from todo_app.data.trello_service import TrelloService
 
 def create_app():
     app = Flask(__name__)
+    app.config['TESTING'] = True
     app.config.from_object('todo_app.flask_config.Config')
-
     trello_service = TrelloService()
 
     @app.route('/')

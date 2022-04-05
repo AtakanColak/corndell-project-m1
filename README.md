@@ -40,6 +40,12 @@ You may use VSCode to run the tests as the environment variable file is loaded a
 
 ## Running the App
 
+### Running in Docker
+
+```bash
+docker build --tag todoapp-image . && docker run -p 3000:3000 --env-file .env --name todoapp todoapp-image
+```
+
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
 ```bash
 $ poetry run flask run
