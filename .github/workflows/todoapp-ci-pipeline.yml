@@ -8,13 +8,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Builds container
-      run: docker build --target production --tag todo-prod-image
+      run: docker build --target production --tag todo-prod-image .
   test:
     name: Test
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v2
     - name: Builds container
-      run: docker build --target test --tag todo-test-image
+      run: docker build --target test --tag todo-test-image .
     - name: Runs test
       run: docker run todo-test-image
