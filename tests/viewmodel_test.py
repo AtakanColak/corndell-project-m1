@@ -1,14 +1,19 @@
 import pytest
 from todo_app.data.item import Item, ItemType
+from todo_app.data.trello_service import TrelloService
 from todo_app.data.viewmodel import ViewModel
-from todo_app.test.item_test import get_test_items
+from tests.item_test import get_test_items
 
 @pytest.fixture
-def vm():
-    return ViewModel(get_test_items())
+def trello_service():
+    return TrelloService()
 
-def test_ctor(vm):
-    items = get_test_items()
+@pytest.fixture
+def vm(trello_service: TrelloService):
+    return ViewModel(get_test_items(trello_service))
+
+def test_ctor(vm, trello_service):
+    items = get_test_items(trello_service)
     assert len(vm.items) == len(items)
 
 def test_todo_items(vm):
