@@ -15,5 +15,3 @@ class Item:
     @classmethod
     def from_trello_card(cls, card, item_type: ItemType):
         return cls(card['id'], card['name'], card['idList'], item_type)
-
-        

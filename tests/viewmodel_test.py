@@ -3,9 +3,12 @@ from todo_app.data.item import Item, ItemType
 from todo_app.data.trello_service import TrelloService
 from todo_app.data.viewmodel import ViewModel
 from tests.item_test import get_test_items
+from dotenv import find_dotenv, load_dotenv
 
 @pytest.fixture
 def trello_service():
+    file_path = find_dotenv('.env.test')
+    load_dotenv(file_path, override=True)
     return TrelloService()
 
 @pytest.fixture

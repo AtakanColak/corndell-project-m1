@@ -9,8 +9,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Builds container
       run: docker build --target production --tag todo-prod-image .
-  test:
-    name: Test
+  unit-and-integration-test:
+    name: Unit & Integration Tests
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v2
@@ -18,3 +18,12 @@ jobs:
       run: docker build --target test --tag todo-test-image .
     - name: Runs test
       run: docker run todo-test-image
+  e2e-test:
+    name: End-to-end Tests
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v2
+    - name: Builds container
+      run: docker build --target e2e_test --tag todo-e2e-test-image .
+    - name: Runs test
+      run: docker run todo-e2e-test-image

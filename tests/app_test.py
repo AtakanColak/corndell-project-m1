@@ -1,14 +1,15 @@
 import os
 from tokenize import Name
-from dotenv import find_dotenv, load_dotenv
 import pytest
 import requests
 
 from todo_app.app import create_app
+from tests.viewmodel_test import trello_service
 
 class StubResponse:
     def __init__(self, fake_response_data):
         self.fake_response_data = fake_response_data
+        self.ok = True
 
     def json(self):
         return self.fake_response_data
@@ -29,10 +30,8 @@ def get_lists_stub(url, params):
     return StubResponse(fake_response_data)
 
 @pytest.fixture
-def client():
-    file_path = find_dotenv('.env.test')
-    load_dotenv(file_path, override=True)
-    test_app = create_app()
+def client(trello_service):
+    test_app = create_app(trello_service)
     with test_app.test_client() as client:
         yield client
 
