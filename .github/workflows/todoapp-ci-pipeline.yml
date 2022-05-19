@@ -27,4 +27,8 @@ jobs:
     - name: Builds container
       run: docker build --target e2e_test --tag todo-e2e-test-image .
     - name: Runs test
-      run: docker run todo-e2e-test-image
+      run: docker run \
+            -e TRELLO_BOARD_ID=$TRELLO_BOARD_ID \
+            -e TRELLO_KEY=$TRELLO_KEY           \
+            -e TRELLO_TOKEN=$TRELLO_TOKEN       \
+            todo-e2e-test-image
