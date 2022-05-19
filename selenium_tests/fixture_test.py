@@ -1,3 +1,4 @@
+import os
 from dotenv import find_dotenv, load_dotenv
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -10,8 +11,9 @@ from todo_app.app import create_app
 
 @pytest.fixture(scope='module')
 def trello_service_fix():
-    file_path = find_dotenv('../.env.integration')
-    load_dotenv(file_path, override=True)
+    integration_env_path = '../.env.integration'
+    if os.path.exists(integration_env_path):
+        load_dotenv(find_dotenv(integration_env_path), override=True)
     return TrelloService()
 
 @pytest.fixture(scope='module')
