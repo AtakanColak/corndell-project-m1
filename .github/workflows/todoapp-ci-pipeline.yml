@@ -19,6 +19,7 @@ jobs:
     - name: Runs test
       run: docker run todo-test-image
   e2e-test:
+    environment: e2e-test
     name: End-to-end Tests
     runs-on: ubuntu-latest
     steps: 
