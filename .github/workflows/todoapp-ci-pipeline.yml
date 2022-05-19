@@ -8,10 +8,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Builds container
-      run: docker build --target production --tag todo-prod-image .
+      run: | 
+        docker build --target production --tag todo-prod-image .
+        docker save todo-prod-image > /todo-prod-image.tar
+    - name: Temporarily Upload Docker Image
+      uses: actions/upload-artifact@v2
+      with:
+        name: docker-artifact
+        path: /todo-prod-image.tar
   unit-and-integration-test:
     name: Unit & Integration Tests
     runs-on: ubuntu-latest
+    needs: build
     steps: 
     - uses: actions/checkout@v2
     - name: Builds container
@@ -22,6 +30,7 @@ jobs:
     environment: e2e-test
     name: End-to-end Tests
     runs-on: ubuntu-latest
+    needs: unit-and-integration-test
     steps: 
     - uses: actions/checkout@v2
     - name: Builds container
@@ -37,3 +46,29 @@ jobs:
           -e TRELLO_KEY=$TRELLO_KEY           \
           -e TRELLO_TOKEN=$TRELLO_TOKEN       \
           todo-e2e-test-image
+  docker-deploy:
+    name: Deploy to DockerHub
+    environment: docker-deploy
+    runs-on: ubuntu-latest
+    needs: e2e-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Retrieve Docker Image
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-artifact
+          path: /todo-prod-image.tar
+      - name: Load Image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_REPOSITORY: ${{ secrets.DOCKER_REPOSITORY }}
+        run: |
+          docker load < /todo-prod-image.tar
+          docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+          docker push $DOCKER_REPOSITORY:todo-prod-image
+      - name: Delete Artifact
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: docker-artifact
