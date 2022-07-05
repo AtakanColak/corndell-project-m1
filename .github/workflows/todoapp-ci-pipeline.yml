@@ -67,8 +67,8 @@ jobs:
         run: |
           docker load --input /tmp/todo-prod-image.tar
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-          docker image tag todo-prod-image:latest $DOCKER_REPOSITORY/todoapp:latest
-          docker image push $DOCKER_REPOSITORY/todoapp:latest
+          docker image tag todo-prod-image:latest $DOCKER_REPOSITORY:latest
+          docker image push $DOCKER_REPOSITORY:latest
       - name: Delete Artifact
         uses: geekyeggo/delete-artifact@v1
         with:
