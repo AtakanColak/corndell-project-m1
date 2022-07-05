@@ -10,12 +10,12 @@ jobs:
     - name: Builds container
       run: | 
         docker build --target production --tag todo-prod-image .
-        docker save todo-prod-image > /todo-prod-image.tar
+        docker save todo-prod-image > /tmp/todo-prod-image.tar
     - name: Temporarily Upload Docker Image
       uses: actions/upload-artifact@v2
       with:
         name: docker-artifact
-        path: /todo-prod-image.tar
+        path: /tmp/todo-prod-image.tar
   unit-and-integration-test:
     name: Unit & Integration Tests
     runs-on: ubuntu-latest
@@ -58,14 +58,14 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: docker-artifact
-          path: /todo-prod-image.tar
+          path: /tmp/todo-prod-image.tar
       - name: Load Image
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_REPOSITORY: ${{ secrets.DOCKER_REPOSITORY }}
         run: |
-          docker load < /todo-prod-image.tar
+          docker load < /tmp/todo-prod-image.tar
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           docker push $DOCKER_REPOSITORY:todo-prod-image
       - name: Delete Artifact
