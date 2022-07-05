@@ -9,8 +9,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Builds container
       run: | 
-        docker build --target production --tag todo-prod-image .
-        docker save todo-prod-image > /tmp/todo-prod-image.tar
+        docker build --target production --tag todo-prod-image:latest .
+        docker save todo-prod-image:latest > /tmp/todo-prod-image.tar
     - name: Temporarily Upload Docker Image
       uses: actions/upload-artifact@v2
       with:
@@ -67,7 +67,8 @@ jobs:
         run: |
           docker load --input /tmp/todo-prod-image.tar
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-          docker push $DOCKER_REPOSITORY:todo-prod-image
+          docker image tag todo-prod-image:latest $DOCKER_REPOSITORY/todoapp:latest
+          docker image push $DOCKER_REPOSITORY/todoapp:latest
       - name: Delete Artifact
         uses: geekyeggo/delete-artifact@v1
         with:
