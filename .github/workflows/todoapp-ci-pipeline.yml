@@ -14,7 +14,7 @@ jobs:
     - name: Temporarily Upload Docker Image
       uses: actions/upload-artifact@v2
       with:
-        name: docker-artifact.tar
+        name: docker-artifact
         path: /tmp/todo-prod-image.tar
   unit-and-integration-test:
     name: Unit & Integration Tests
@@ -57,15 +57,15 @@ jobs:
       - name: Retrieve Docker Image
         uses: actions/download-artifact@v2
         with:
-          name: docker-artifact.tar
-          path: /tmp/
+          name: docker-artifact
+          path: /tmp
       - name: Load Image
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_REPOSITORY: ${{ secrets.DOCKER_REPOSITORY }}
         run: |
-          docker load --input /tmp/docker-artifact.tar
+          docker load --input /tmp/todo-prod-image.tar
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           docker push $DOCKER_REPOSITORY:todo-prod-image
       - name: Delete Artifact
