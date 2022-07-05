@@ -70,7 +70,7 @@ jobs:
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           docker image tag todo-prod-image:latest $DOCKER_REPOSITORY:latest
           docker image push $DOCKER_REPOSITORY:latest
-          curl -dh -X POST '$WEBHOOK_ADDRESS'
+          curl -dh -X POST "$WEBHOOK_ADDRESS"
       - name: Delete Artifact
         uses: geekyeggo/delete-artifact@v1
         with:
