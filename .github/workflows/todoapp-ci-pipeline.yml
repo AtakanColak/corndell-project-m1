@@ -50,7 +50,7 @@ jobs:
     name: Deploy to DockerHub
     environment: docker-deploy
     runs-on: ubuntu-latest
-    needs: e2e-test
+    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -65,7 +65,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_REPOSITORY: ${{ secrets.DOCKER_REPOSITORY }}
         run: |
-          docker load < /tmp/todo-prod-image.tar
+          docker load --input /tmp/todo-prod-image.tar
           docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
           docker push $DOCKER_REPOSITORY:todo-prod-image
       - name: Delete Artifact
